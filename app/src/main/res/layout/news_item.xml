@@ -73,7 +73,7 @@
             android:clickable="true"
             android:contentDescription="@string/cd_favorite_icon"
             android:focusable="true"
-            android:src="@drawable/ic_favorite"
+            android:src="@drawable/ic_unfavorite"
             app:layout_constraintBottom_toBottomOf="@+id/btOpenLink"
             app:layout_constraintEnd_toStartOf="@+id/ivShare" />
 
