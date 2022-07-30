@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDb(){
-        db = Room.databaseBuilder(this, AppDatabase.class, "soccer-news")
+        db = Room.databaseBuilder(this, AppDatabase.class, "SoccerNews")
                 .allowMainThreadQueries()
                 .build();
     }

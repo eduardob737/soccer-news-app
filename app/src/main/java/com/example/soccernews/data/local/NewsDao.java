@@ -10,9 +10,8 @@ import com.example.soccernews.domain.News;
 import java.util.List;
 
 @Dao
-public interface NewsDAO {
-
-    @Insert (onConflict = OnConflictStrategy.REPLACE)
+public interface NewsDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(News news);
 
     @Query("SELECT * FROM news WHERE favorite = 1")

@@ -9,6 +9,6 @@ import retrofit2.http.GET;
 
 public interface SoccerNewsApi {
 
-    @GET ("news.json")
+    @GET("news.json")
     Call<List<News>> getNews();
 }

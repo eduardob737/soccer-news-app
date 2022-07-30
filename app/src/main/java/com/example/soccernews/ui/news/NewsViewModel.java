@@ -22,8 +22,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewsViewModel extends ViewModel {
 
+    public enum State {
+        DOING, DONE, ERROR;
+    }
+
     private final MutableLiveData<List<News>> news = new MutableLiveData<>();
+    private final MutableLiveData<State> state = new MutableLiveData<>();
     private final SoccerNewsApi api;
+
 
     public NewsViewModel() {
 
@@ -38,25 +44,31 @@ public class NewsViewModel extends ViewModel {
     }
 
     private void findNews() {
+        state.setValue(State.DOING);
         api.getNews().enqueue(new Callback<List<News>>() {
             @Override
             public void onResponse(Call<List<News>> call, Response<List<News>> response) {
                 if (response.isSuccessful()) {
                     news.setValue(response.body());
+                    state.setValue(State.DONE);
                 } else {
-                        // TODO pensar e uma estratégia de tratamento de erros.
+                        state.setValue(State.ERROR);
 
                 }
             }
 
             @Override
             public void onFailure(Call<List<News>> call, Throwable t) {
-                        // TODO pensar e uma estratégia de tratamento de erros.
+                state.setValue(State.ERROR);
             }
         });
     }
 
     public LiveData<List<News>> getNews() {
-        return news;
+        return this.news;
+    }
+
+    public LiveData<State> getState() {
+        return this.state ;
     }
 }

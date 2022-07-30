@@ -1,7 +1,6 @@
 package com.example.soccernews.ui.favorites;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,14 +34,12 @@ public class FavoritesFragment extends Fragment {
     private void loadFavoriteNews() {
         MainActivity activity = (MainActivity) getActivity();
             if (activity != null) {
-                List<News> favoriteNews = activity.getDb().newsDAO().loadFavoriteNews();
+                List<News> favoriteNews = activity.getDb().newsDao().loadFavoriteNews();
                 binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext()));
-                binding.rvNews.setHasFixedSize(true);
-                    binding.rvNews.setAdapter(new NewsAdapter(favoriteNews, updatedNews -> {
-                        activity.getDb().newsDAO().save(updatedNews);
-                        loadFavoriteNews();
-                    }));
-                Log.i("test", String.valueOf(favoriteNews.size()));
+                binding.rvNews.setAdapter(new NewsAdapter(favoriteNews, updatedNews -> {
+                    activity.getDb().newsDao().save(updatedNews);
+                    loadFavoriteNews();
+                }));
             }
     }
 

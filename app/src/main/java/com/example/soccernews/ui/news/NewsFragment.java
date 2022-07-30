@@ -1,7 +1,6 @@
 package com.example.soccernews.ui.news;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,18 +25,26 @@ public class NewsFragment extends Fragment {
         View root = binding.getRoot();
 
         binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.rvNews.setHasFixedSize(true);
 
         newsViewModel.getNews().observe(getViewLifecycleOwner(), news -> {
             binding.rvNews.setAdapter(new NewsAdapter(news, updatedNews -> {
                 MainActivity activity = (MainActivity) getActivity();
                 if (activity != null) {
-                    activity.getDb().newsDAO().save(updatedNews);
-                    int number = activity.getDb().newsDAO().loadFavoriteNews().size();
-                    Log.i("num", String.valueOf(number));
+                    activity.getDb().newsDao().save(updatedNews);
                 }
             }));
         });
+
+        newsViewModel.getState().observe(getViewLifecycleOwner(), state -> {
+            switch (state){
+                case DOING:
+                    break;
+                case DONE:
+                    break;
+                case ERROR:
+            }
+        });
+
         return root;
     }
 

@@ -2,6 +2,7 @@ package com.example.soccernews.ui.adapter;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private List<News> news;
+    private final List<News> news;
     private final FavoriteListener favoriteListener;
 
     public NewsAdapter(List<News> news, FavoriteListener favoriteListener) {
