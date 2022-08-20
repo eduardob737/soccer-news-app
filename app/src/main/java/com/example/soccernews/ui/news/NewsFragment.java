@@ -1,6 +1,9 @@
 package com.example.soccernews.ui.news;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ public class NewsFragment extends Fragment {
 
     private FragmentNewsBinding binding;
     private NewsViewModel newsViewModel;
+    private NewsViewModel.State state;
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
@@ -39,17 +43,23 @@ public class NewsFragment extends Fragment {
 
     private void observeStates() {
         newsViewModel.getState().observe(getViewLifecycleOwner(), state -> {
+            this.state = state;
             switch (state){
                 case DOING:
                     binding.srlNews.setRefreshing(true);
                     break;
+
                 case DONE:
+                    new Handler().postDelayed(() -> {
+                        observeNews();
+                    }, 4000);
+
                     binding.srlNews.setRefreshing(false);
                     break;
+
                 case ERROR:
                     binding.srlNews.setRefreshing(false);
                     Snackbar.make(binding.getRoot(), R.string.error_network, BaseTransientBottomBar.LENGTH_LONG).show();
-
             }
         });
     }
@@ -57,7 +67,7 @@ public class NewsFragment extends Fragment {
     private void observeNews() {
         newsViewModel.getNews().observe(getViewLifecycleOwner(), news -> {
             binding.rvNews.setAdapter(new NewsAdapter(news, (updatedNews ->
-                    newsViewModel.saveNews(updatedNews))));
+                    newsViewModel.saveNews(updatedNews)), state));
         });
     }
 
